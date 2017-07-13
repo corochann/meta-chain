@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+.idea/
+examples/result/
+examples/store_model/
