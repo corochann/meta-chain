@@ -5,15 +5,15 @@ import os
 import pickle
 from types import MethodType, FunctionType, LambdaType
 
-from chainer import Chain, serializers
+from chainer import Chain, serializers, Link
 
 
 def _logging_hook(func):
     def __(self, *args, **kwargs):
         #print('before: {0}'.format(func.__name__))
         ret = func(self, *args, **kwargs)
-        print('args: ', args)
-        print('kwargs: ', kwargs)
+        #print('args: ', args)
+        #print('kwargs: ', kwargs)
         self._init_args = args
         self._init_kwargs = kwargs
         #print('after : {0}'.format(func.__name__))
@@ -22,15 +22,17 @@ def _logging_hook(func):
     return __
 
 
-class RecordInitMetaClass(type):
+class InitSaveChain(type):
 
     def __new__(cls, name, bases, dict):
         #print('name : ', name)
         #print('bases: ', bases)
         #print('dict : ', dict)
         dict.update({
-            '__init__': _logging_hook(dict['__init__'])
+            '__init__': _logging_hook(dict['__init__']),
         })
+        #setattr(cls, '_get_save_path', cls._get_save_path)
+        bases += (MetaChain, )
         return type.__new__(cls, name, bases, dict)
 
 

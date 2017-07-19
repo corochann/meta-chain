@@ -25,11 +25,11 @@ from chainer.training import extensions
 from chainer.dataset import concat_examples
 
 sys.path.append(os.pardir)
-from meta_chain import MetaChain, RecordInitMetaClass
+from meta_chain import InitSaveChain
 
 
 # Network definition
-class MLP(MetaChain, metaclass=RecordInitMetaClass):
+class MLP(metaclass=InitSaveChain):
 
     def __init__(self, n_units, n_out):
         super(MLP, self).__init__()
