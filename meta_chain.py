@@ -22,7 +22,7 @@ def _logging_hook(func):
     return __
 
 
-class InitSaveChain(type):
+class MetaChain(type):
 
     def __new__(cls, name, bases, dict):
         #print('name : ', name)
@@ -32,11 +32,11 @@ class InitSaveChain(type):
             '__init__': _logging_hook(dict['__init__']),
         })
         #setattr(cls, '_get_save_path', cls._get_save_path)
-        bases += (MetaChain, )
+        bases += (MetaChainClass,)
         return type.__new__(cls, name, bases, dict)
 
 
-class MetaChain(Chain):
+class MetaChainClass(Chain):
     _init_args = None
     _init_kwargs = None
 
